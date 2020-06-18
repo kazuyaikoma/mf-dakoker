@@ -1,10 +1,11 @@
 # coding:utf-8
+import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from IPython import embed
+from selenium.webdriver.chrome.options import Options
 
 
 class AccountManager(object):
@@ -16,7 +17,10 @@ class AccountManager(object):
         self.company_id = user_info['company_id']
         self.user_id = user_info['id']
         self.user_pass = user_info['pass']
-        self.driver = webdriver.Chrome()
+
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Chrome(chrome_options=options)
 
     def login(self):
         print(self.user_id + " でログインします...")
@@ -45,7 +49,6 @@ class AccountManager(object):
                 )
             )
             print("ログインしました。")
-            embed()
 
             return True
         except TimeoutException:
@@ -55,25 +58,32 @@ class AccountManager(object):
 
     def clock_in(self):
         if self.driver.current_url != self.MYPAGE_URL:
+            print("ログインして下さい。")
             return False
 
         self.driver.find_element_by_class_name(
             "attendance-card-time-stamp-clock-in"
         ).click()
-        print("出勤開始: ")
+        print("出勤時刻: " + self.current_time)
+        print("打刻が完了しました。")
 
         return True
 
     def clock_out(self):
         if self.driver.current_url != self.MYPAGE_URL:
+            print("ログインして下さい。")
             return False
 
         self.driver.find_element_by_class_name(
             "attendance-card-time-stamp-clock-out"
         ).click()
+        print("退勤時刻: " + self.current_time)
         print("打刻が完了しました。")
 
         return True
+
+    def current_time(self):
+        return str(datetime.datetime.now()).split('.')[0]
 
     def exit(self):
         self.driver.close()
