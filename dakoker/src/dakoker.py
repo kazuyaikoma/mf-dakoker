@@ -1,20 +1,21 @@
 # coding:utf-8
+import fire
 from src.account_manager import AccountManager
 
 
+class Dakoker(object):
+
+    def __init__(self):
+        self.manager = AccountManager()
+
+    def start(self):
+        if self.manager.login():
+            self.manager.clock_in()
+
+    def stop(self):
+        if self.manager.login():
+            self.manager.clock_out()
+
+
 def main():
-    company_id = ""
-    user_id = ""
-    user_pass = ""
-
-    user_info = {}
-    user_info['company_id'] = company_id
-    user_info['id'] = user_id
-    user_info['pass'] = user_pass
-
-    manager = AccountManager(user_info)
-    manager.login()
-
-
-if __name__ == "__main__":
-    main()
+    fire.Fire(Dakoker)
