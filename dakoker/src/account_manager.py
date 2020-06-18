@@ -2,7 +2,6 @@
 import os
 import pickle
 import getpass
-import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -91,29 +90,3 @@ class AccountManager(object):
             os.makedirs(self.COOKIE_PATH)
         pickle.dump(self.driver.get_cookies(),
                     open(self.COOKIE_PATH + "/cookie.pkl", "wb"))
-
-    def clock_in(self):
-        if self.driver.current_url != self.MYPAGE_URL:
-            print("ログインして下さい。")
-
-        self.driver.find_element_by_class_name(
-            "attendance-card-time-stamp-clock-in"
-        ).click()
-        print("出勤時刻: " + self.current_time())
-        print("打刻が完了しました。")
-
-    def clock_out(self):
-        if self.driver.current_url != self.MYPAGE_URL:
-            print("ログインして下さい。")
-
-        self.driver.find_element_by_class_name(
-            "attendance-card-time-stamp-clock-out"
-        ).click()
-        print("退勤時刻: " + self.current_time())
-        print("打刻が完了しました。")
-
-    def current_time(self):
-        return str(datetime.datetime.now()).split('.')[0]
-
-    def exit(self):
-        self.driver.close()

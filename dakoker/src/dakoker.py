@@ -1,12 +1,12 @@
 # coding:utf-8
 import fire
-from src.account_manager import AccountManager
+from src.attendance_manager import AttendanceManager
 
 
 class Dakoker(object):
 
     def __init__(self):
-        self.manager = AccountManager()
+        self.manager = AttendanceManager()
 
     def start(self):
         if self.manager.login():
