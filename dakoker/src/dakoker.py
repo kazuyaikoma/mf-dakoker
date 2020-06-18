@@ -11,10 +11,12 @@ class Dakoker(object):
     def start(self):
         if self.manager.login():
             self.manager.clock_in()
+            self.manager.exit()
 
     def stop(self):
         if self.manager.login():
             self.manager.clock_out()
+            self.manager.exit()
 
 
 def main():

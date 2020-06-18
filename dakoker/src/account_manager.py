@@ -95,7 +95,6 @@ class AccountManager(object):
     def clock_in(self):
         if self.driver.current_url != self.MYPAGE_URL:
             print("ログインして下さい。")
-            return False
 
         self.driver.find_element_by_class_name(
             "attendance-card-time-stamp-clock-in"
@@ -103,20 +102,15 @@ class AccountManager(object):
         print("出勤時刻: " + self.current_time())
         print("打刻が完了しました。")
 
-        return True
-
     def clock_out(self):
         if self.driver.current_url != self.MYPAGE_URL:
             print("ログインして下さい。")
-            return False
 
         self.driver.find_element_by_class_name(
             "attendance-card-time-stamp-clock-out"
         ).click()
         print("退勤時刻: " + self.current_time())
         print("打刻が完了しました。")
-
-        return True
 
     def current_time(self):
         return str(datetime.datetime.now()).split('.')[0]
