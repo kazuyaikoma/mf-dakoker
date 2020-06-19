@@ -12,7 +12,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 
 
-class AccountManager(object):
+class MFDriver(object):
     TIMEOUT = 3
     COOKIE_PATH = os.environ['HOME'] + '/.local/share/dakoker'
     ROOT_URL = "https://attendance.moneyforward.com"
