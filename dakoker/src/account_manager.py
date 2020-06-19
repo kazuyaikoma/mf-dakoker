@@ -2,6 +2,8 @@
 import os
 import pickle
 import getpass
+
+from src.utils.colors import Colors
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -64,16 +66,17 @@ class AccountManager(object):
                 )
             )
             self.save_cookie()
-            print("Login Succeed!")
+            print("Login successful.")
 
             return True
         except TimeoutException:
             if self.driver.find_elements(By.CLASS_NAME, "is-error") != 0:
-                print(
+                Colors.print(
+                    Colors.RED,
                     "Login Failed: company ID, user ID or password is wrong."
                 )
             else:
-                print("Login Timeout")
+                Colors.print(Colors.RED, "Login Timeout")
 
             return False
 
