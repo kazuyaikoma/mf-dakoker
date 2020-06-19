@@ -81,8 +81,8 @@ class MFDriver(object):
             return False
 
     def load_cookies(self):
-        print("cookie loading...")
         if os.path.exists(self.COOKIE_PATH + "/cookie.pkl"):
+            print("cookie loading...")
             with open(self.COOKIE_PATH + "/cookie.pkl", "rb") as f:
                 return pickle.load(f)
 
