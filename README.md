@@ -14,7 +14,8 @@ MF-Dakoker
 - 過去・当日の勤怠状況の確認(打刻日時)
 
 動作環境
-- Python 3.8以降
+- Python 3.8
+- poetry 1.0.9
 
 ## How to Install
 `pip3 install dakoker`
