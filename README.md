@@ -14,6 +14,8 @@ MFクラウド勤怠の利用者向けに作った、打刻・勤怠状況確認
 動作環境
 - Python 3.8以降
 
+## How to Install
+`pip3 install dakoker`
 
 ## Usage
 
