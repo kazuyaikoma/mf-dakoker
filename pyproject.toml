@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "dakoker"
-version = "0.1.9"
+version = "0.1.11"
 description = ""
 authors = ["nixiesquid <audu817@gmail.com>"]
-readme = "../README.rst"
+readme = "README.rst"
 license = "MIT"
 packages = [
   { include = "./src/*.py" },
