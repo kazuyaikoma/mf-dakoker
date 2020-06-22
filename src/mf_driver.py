@@ -35,9 +35,9 @@ class MFDriver(object):
             return self.check_login()
         else:
             self.driver.get(self.LOGIN_URL)
-            return self.stdin_login()
+            return self.login_wth_stdin()
 
-    def stdin_login(self):
+    def login_wth_stdin(self):
         company_id = input("company ID: ")
         user_id = input("user ID or your email address: ")
         user_pass = getpass.getpass("password: ")
@@ -65,20 +65,21 @@ class MFDriver(object):
                     (By.CLASS_NAME, "attendance-card-title")
                 )
             )
-            self.save_cookie()
+            self.save_cookies()
             print("Login successful.")
-
             return True
+
         except TimeoutException:
             if self.driver.find_elements(By.CLASS_NAME, "is-error") != 0:
                 Colors.print(
                     Colors.RED,
                     "Login Failed: company ID, user ID or password is wrong."
                 )
+                self.remove_cookies()
+                return self.login_wth_stdin()
             else:
-                Colors.print(Colors.RED, "Login Timeout")
-
-            return False
+                Colors.print(Colors.RED, "Login Timeout.")
+                return False
 
     def load_cookies(self):
         if os.path.exists(self.COOKIE_PATH + "/cookie.pkl"):
@@ -88,7 +89,11 @@ class MFDriver(object):
 
         return None
 
-    def save_cookie(self):
+    def remove_cookies(self):
+        if os.path.exists(self.COOKIE_PATH + "/cookie.pkl"):
+            os.remove(self.COOKIE_PATH + "/cookie.pkl")
+
+    def save_cookies(self):
         if not os.path.exists(self.COOKIE_PATH):
             os.makedirs(self.COOKIE_PATH)
         pickle.dump(self.driver.get_cookies(),
