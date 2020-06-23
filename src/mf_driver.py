@@ -78,7 +78,7 @@ class MFDriver(object):
                     "Login Failed: company ID, user ID or password is wrong."
                 )
                 self.remove_user_info()
-                return self.login_wth_stdin()
+                return self.login()
             else:
                 Colors.print(Colors.RED, "Login Timeout.")
                 return False
