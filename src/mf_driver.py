@@ -2,6 +2,7 @@
 import os
 import pickle
 import getpass
+import keyring
 
 from src.utils.colors import Colors
 from selenium import webdriver
@@ -14,58 +15,59 @@ from selenium.webdriver.chrome.options import Options
 
 class MFDriver(object):
     TIMEOUT = 3
-    COOKIE_PATH = os.environ['HOME'] + '/.local/share/dakoker'
+    CORP_ID = 'CORP_ID'
+    USER_ID = 'USER_ID'
+    USER_PASS = 'USER_PASS'
+    MF_SERVICE = 'MF_SERVICE'
+    USER_INFO_PATH = os.environ['HOME'] + '/.local/share/dakoker'
     ROOT_URL = "https://attendance.moneyforward.com"
     LOGIN_URL = ROOT_URL + "/employee_session/new"
     MYPAGE_URL = ROOT_URL + "/my_page"
 
     def __init__(self):
-        self.cookies = self.load_cookies()
-
         options = Options()
         options.headless = True
         self.driver = webdriver.Chrome(chrome_options=options)
 
     def login(self):
-        if self.cookies:
-            self.driver.get(self.ROOT_URL)
-            for cookie in self.cookies:
-                self.driver.add_cookie(cookie)
-            self.driver.get(self.MYPAGE_URL)
-            return self.check_login()
+        user_info = self.get_user_info()
+        if not user_info:
+            user_info = {}
+            user_info[self.CORP_ID] = input("company ID: ")
+            user_info[self.USER_ID] = input("user ID or email address: ")
+            user_info[self.USER_PASS] = getpass.getpass("password: ")
         else:
-            self.driver.get(self.LOGIN_URL)
-            return self.login_wth_stdin()
+            print("Login cache loaded...")
 
-    def login_wth_stdin(self):
-        company_id = input("company ID: ")
-        user_id = input("user ID or your email address: ")
-        user_pass = getpass.getpass("password: ")
+        self.driver.get(self.LOGIN_URL)
 
+        return self.login_with_user_info(user_info)
+
+    def login_with_user_info(self, user_info):
         self.driver.find_element_by_id(
             "employee_session_form_office_account_name"
-        ).send_keys(company_id)
+        ).send_keys(user_info[self.CORP_ID])
         self.driver.find_element_by_id(
             "employee_session_form_account_name_or_email"
-        ).send_keys(user_id)
+        ).send_keys(user_info[self.USER_ID])
         self.driver.find_element_by_id(
             "employee_session_form_password"
-        ).send_keys(user_pass)
+        ).send_keys(user_info[self.USER_PASS])
 
         self.driver.find_element_by_class_name(
             "attendance-before-login-card-button"
         ).click()
 
-        return self.check_login()
+        return self.check_login(user_info)
 
-    def check_login(self):
+    def check_login(self, user_info):
         try:
             WebDriverWait(self.driver, self.TIMEOUT).until(
                 EC.presence_of_element_located(
                     (By.CLASS_NAME, "attendance-card-title")
                 )
             )
-            self.save_cookies()
+            self.save_user_info(user_info)
             print("Login successful.")
             return True
 
@@ -75,26 +77,37 @@ class MFDriver(object):
                     Colors.RED,
                     "Login Failed: company ID, user ID or password is wrong."
                 )
-                self.remove_cookies()
+                self.remove_user_info()
                 return self.login_wth_stdin()
             else:
                 Colors.print(Colors.RED, "Login Timeout.")
                 return False
 
-    def load_cookies(self):
-        if os.path.exists(self.COOKIE_PATH + "/cookie.pkl"):
-            print("cookie loading...")
-            with open(self.COOKIE_PATH + "/cookie.pkl", "rb") as f:
-                return pickle.load(f)
+    def get_user_info(self):
+        if os.path.isfile(self.USER_INFO_PATH + '/user_info.pkl'):
+            with open(self.USER_INFO_PATH + '/user_info.pkl', "rb") as f:
+                info = pickle.load(f)
+                passwd = keyring.get_password(
+                    self.MF_SERVICE, info[self.USER_ID])
+                if passwd:
+                    info[self.USER_PASS] = passwd
+                    return info
 
         return None
 
-    def remove_cookies(self):
-        if os.path.exists(self.COOKIE_PATH + "/cookie.pkl"):
-            os.remove(self.COOKIE_PATH + "/cookie.pkl")
+    def remove_user_info(self):
+        if os.path.isfile(self.USER_INFO_PATH + '/user_info.pkl'):
+            os.remove(self.USER_INFO_PATH + "/user_info.pkl")
 
-    def save_cookies(self):
-        if not os.path.exists(self.COOKIE_PATH):
-            os.makedirs(self.COOKIE_PATH)
-        pickle.dump(self.driver.get_cookies(),
-                    open(self.COOKIE_PATH + "/cookie.pkl", "wb"))
+    def save_user_info(self, user_info):
+        if not os.path.isdir(self.USER_INFO_PATH):
+            os.makedirs(self.USER_INFO_PATH)
+
+        keyring.set_password(
+            self.MF_SERVICE,
+            user_info[self.USER_ID],
+            user_info[self.USER_PASS])
+
+        del user_info[self.USER_PASS]
+        pickle.dump(user_info,
+                    open(self.USER_INFO_PATH + "/user_info.pkl", "wb"))
