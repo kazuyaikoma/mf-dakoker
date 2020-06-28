@@ -3,14 +3,15 @@ import os
 import pickle
 import getpass
 import keyring
+from halo import Halo
 
-from src.utils.colors import Colors
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
+from src.utils.colors import Colors
 
 
 class MFDriver(object):
@@ -32,16 +33,23 @@ class MFDriver(object):
     def login(self):
         user_info = self.get_user_info()
         if not user_info:
+            print("Please enter your login info.")
             user_info = {}
             user_info[self.CORP_ID] = input("company ID: ")
             user_info[self.USER_ID] = input("user ID or email address: ")
             user_info[self.USER_PASS] = getpass.getpass("password: ")
-        else:
-            print("Login cache loaded...")
 
+        spinner = Halo(text='Login', spinner='dots')
+        spinner.start()
         self.driver.get(self.LOGIN_URL)
 
-        return self.login_with_user_info(user_info)
+        succeed = self.login_with_user_info(user_info)
+        if succeed:
+            spinner.succeed()
+        else:
+            spinner.end()
+
+        return succeed
 
     def login_with_user_info(self, user_info):
         self.driver.find_element_by_id(
@@ -68,19 +76,18 @@ class MFDriver(object):
                 )
             )
             self.save_user_info(user_info)
-            print("Login successful.")
             return True
 
         except TimeoutException:
             if self.driver.find_elements(By.CLASS_NAME, "is-error") != 0:
                 Colors.print(
                     Colors.RED,
-                    "Login Failed: company ID, user ID or password is wrong."
+                    "\nLogin Failed: company ID, user ID or password is wrong."
                 )
                 self.remove_user_info()
                 return self.login()
             else:
-                Colors.print(Colors.RED, "Login Timeout.")
+                Colors.print(Colors.RED, "\nLogin Timeout.")
                 return False
 
     def get_user_info(self):
