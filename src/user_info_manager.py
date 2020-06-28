@@ -3,6 +3,7 @@ import os
 import pickle
 import getpass
 import keyring
+from halo import Halo
 
 
 class UserInfoManager(object):
@@ -35,13 +36,6 @@ class UserInfoManager(object):
 
         return None
 
-    def remove(self):
-        if os.path.isfile(self.USER_INFO_PATH + '/user_info.pkl'):
-            os.remove(self.USER_INFO_PATH + "/user_info.pkl")
-            return True
-
-        return False
-
     def save(self, user_info):
         if not os.path.isdir(self.USER_INFO_PATH):
             os.makedirs(self.USER_INFO_PATH)
@@ -54,3 +48,19 @@ class UserInfoManager(object):
         del user_info[self.USER_PASS]
         pickle.dump(user_info,
                     open(self.USER_INFO_PATH + "/user_info.pkl", "wb"))
+
+    @classmethod
+    def remove(klass):
+        if os.path.isfile(klass.USER_INFO_PATH + '/user_info.pkl'):
+            os.remove(klass.USER_INFO_PATH + "/user_info.pkl")
+            return True
+
+        return False
+
+    @classmethod
+    def remove_with_message(klass):
+        spinner = Halo(text='Remove your local data...', spinner='dots')
+        if UserInfoManager.remove():
+            spinner.succeed("Data Successfully deleted.")
+        else:
+            spinner.warn("Data not found.")

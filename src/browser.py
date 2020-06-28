@@ -70,7 +70,7 @@ class Browser(object):
                     Colors.RED,
                     "\nCompany ID, User ID or Password is wrong."
                 )
-                self.info_manager.remove()
+                UserInfoManager.remove()
                 spinner.fail(self.LOGIN_FAILED)
                 return self.login()
             else:
