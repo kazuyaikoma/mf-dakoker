@@ -38,6 +38,9 @@ class UserInfoManager(object):
     def remove(self):
         if os.path.isfile(self.USER_INFO_PATH + '/user_info.pkl'):
             os.remove(self.USER_INFO_PATH + "/user_info.pkl")
+            return True
+
+        return False
 
     def save(self, user_info):
         if not os.path.isdir(self.USER_INFO_PATH):
