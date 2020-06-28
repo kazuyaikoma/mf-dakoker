@@ -31,23 +31,12 @@ class MFDriver(object):
         self.driver = webdriver.Chrome(chrome_options=options)
 
     def login(self):
-        user_info = self.get_user_info()
-        if not user_info:
-            print("Please enter your login info.")
-            user_info = {}
-            user_info[self.CORP_ID] = input("company ID: ")
-            user_info[self.USER_ID] = input("user ID or email address: ")
-            user_info[self.USER_PASS] = getpass.getpass("password: ")
-
         spinner = Halo(text='Login', spinner='dots')
         spinner.start()
         self.driver.get(self.LOGIN_URL)
 
-        succeed = self.login_with_user_info(user_info)
-        if succeed:
-            spinner.succeed()
-        else:
-            spinner.end()
+        succeed = self.login_with_user_info(self.get_user_info())
+        spinner.succeed() if succeed else spinner.end()
 
         return succeed
 
@@ -91,6 +80,17 @@ class MFDriver(object):
                 return False
 
     def get_user_info(self):
+        user_info = self.get_cached_user_info()
+        if not user_info:
+            print("Please enter your login info.")
+            user_info = {}
+            user_info[self.CORP_ID] = input("company ID: ")
+            user_info[self.USER_ID] = input("user ID or email address: ")
+            user_info[self.USER_PASS] = getpass.getpass("password: ")
+
+        return user_info
+
+    def get_cached_user_info(self):
         if os.path.isfile(self.USER_INFO_PATH + '/user_info.pkl'):
             with open(self.USER_INFO_PATH + '/user_info.pkl', "rb") as f:
                 info = pickle.load(f)
