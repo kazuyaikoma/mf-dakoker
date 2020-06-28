@@ -10,14 +10,9 @@ class AttendanceManager(object):
         self.browser = Browser()
         self.driver = self.browser.driver
 
-    def start(self):
-        if self.login():
-            self.clock_in()
-            self.exit()
-
-    def stop(self):
-        if self.login():
-            self.clock_out()
+    def stamp(self, method):
+        if self.login() and method in dir(self):
+            getattr(self, method)()
             self.exit()
 
     def login(self):
@@ -30,19 +25,33 @@ class AttendanceManager(object):
         self.driver.find_element_by_class_name(selector).click()
         print(time_prefix + Calc.current_time())
 
-    def clock_in(self):
+    def start(self):
         selector = "attendance-card-time-stamp-clock-in"
-        prefix = "CLOCK " + Color.get_colored(Color.BOLD, "IN") + " TIME: "
+        prefix = "Work " + Color.get_colored(Color.BOLD, "START") + " time: "
         self.clock_execute(selector, prefix)
 
         Color.print(Color.GREEN, "DAKOKU successful. Good luck!")
 
-    def clock_out(self):
+    def end(self):
         selector = "attendance-card-time-stamp-clock-out"
-        prefix = "CLOCK " + Color.get_colored(Color.BOLD, "OUT") + " TIME: "
+        prefix = "Work " + Color.get_colored(Color.BOLD, "END") + " time: "
         self.clock_execute(selector, prefix)
 
         Color.print(Color.GREEN, "DAKOKU successful. Good job today!")
+
+    def start_break(self):
+        selector = "attendance-card-time-stamp-start-break"
+        prefix = "Break " + Color.get_colored(Color.BOLD, "START") + " time: "
+        self.clock_execute(selector, prefix)
+
+        Color.print(Color.GREEN, "DAKOKU successful. Let's take a break.")
+
+    def end_break(self):
+        selector = "attendance-card-time-stamp-end-break"
+        prefix = "Break " + Color.get_colored(Color.BOLD, "END") + " time: "
+        self.clock_execute(selector, prefix)
+
+        Color.print(Color.GREEN, "DAKOKU successful. Let's get back to work.")
 
     def exit(self):
         self.driver.close()
