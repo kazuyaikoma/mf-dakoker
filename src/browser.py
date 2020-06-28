@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
-from src.utils.colors import Colors
+from src.utils.color import Color
 from src.user_info_manager import UserInfoManager
 
 
@@ -66,14 +66,14 @@ class Browser(object):
 
         except TimeoutException:
             if self.driver.find_elements(By.CLASS_NAME, "is-error") != 0:
-                Colors.print(
-                    Colors.RED,
+                Color.print(
+                    Color.RED,
                     "\nCompany ID, User ID or Password is wrong."
                 )
                 UserInfoManager.remove()
                 spinner.fail(self.LOGIN_FAILED)
                 return self.login()
             else:
-                Colors.print(Colors.RED, "\nLogin Timeout.")
+                Color.print(Color.RED, "\nLogin Timeout.")
                 spinner.fail(self.LOGIN_FAILED)
                 return False

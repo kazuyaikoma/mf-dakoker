@@ -1,5 +1,5 @@
 # coding:utf-8
-class Colors(object):
+class Color(object):
     RED = '\033[31m'
     GREEN = '\033[32m'
     YELLOW = '\033[33m'
@@ -11,9 +11,9 @@ class Colors(object):
     END = '\033[0m'
 
     @classmethod
-    def get_colored(cls, color, text):
-        return color + text + Colors.END
+    def get_colored(klass, color, text):
+        return color + text + klass.END
 
     @classmethod
-    def print(cls, color, text):
-        print(Colors.get_colored(color, text))
+    def print(klass, color, text):
+        print(klass.get_colored(color, text))

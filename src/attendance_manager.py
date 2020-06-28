@@ -1,7 +1,7 @@
 # coding:utf-8
 import datetime
 from src.browser import Browser
-from src.utils.colors import Colors
+from src.utils.color import Color
 
 
 class AttendanceManager(object):
@@ -32,17 +32,17 @@ class AttendanceManager(object):
 
     def clock_in(self):
         selector = "attendance-card-time-stamp-clock-in"
-        prefix = "CLOCK " + Colors.get_colored(Colors.BOLD, "IN") + " TIME: "
+        prefix = "CLOCK " + Color.get_colored(Color.BOLD, "IN") + " TIME: "
         self.clock_execute(selector, prefix)
 
-        Colors.print(Colors.GREEN, "DAKOKU successful. Good luck!")
+        Color.print(Color.GREEN, "DAKOKU successful. Good luck!")
 
     def clock_out(self):
         selector = "attendance-card-time-stamp-clock-out"
-        prefix = "CLOCK " + Colors.get_colored(Colors.BOLD, "OUT") + " TIME: "
+        prefix = "CLOCK " + Color.get_colored(Color.BOLD, "OUT") + " TIME: "
         self.clock_execute(selector, prefix)
 
-        Colors.print(Colors.GREEN, "DAKOKU successful. Good job today!")
+        Color.print(Color.GREEN, "DAKOKU successful. Good job today!")
 
     def current_time(self):
         return str(datetime.datetime.now()).split('.')[0]
