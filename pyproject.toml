@@ -19,6 +19,7 @@ requests = "^2.24.0"
 keyring = "^21.2.1"
 better_exceptions = "^0.2.2"
 halo = "^0.0.29"
+tabulate = "^0.8.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
