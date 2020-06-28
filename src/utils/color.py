@@ -1,4 +1,6 @@
 # coding:utf-8
+
+
 class Color(object):
     RED = '\033[31m'
     GREEN = '\033[32m'

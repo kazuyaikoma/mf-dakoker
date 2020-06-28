@@ -1,7 +1,7 @@
 # coding:utf-8
-import datetime
 from src.browser import Browser
 from src.utils.color import Color
+from src.utils.calc import Calc
 
 
 class AttendanceManager(object):
@@ -28,7 +28,7 @@ class AttendanceManager(object):
             print("Please login.")
 
         self.driver.find_element_by_class_name(selector).click()
-        print(time_prefix + self.current_time())
+        print(time_prefix + Calc.current_time())
 
     def clock_in(self):
         selector = "attendance-card-time-stamp-clock-in"
@@ -43,9 +43,6 @@ class AttendanceManager(object):
         self.clock_execute(selector, prefix)
 
         Color.print(Color.GREEN, "DAKOKU successful. Good job today!")
-
-    def current_time(self):
-        return str(datetime.datetime.now()).split('.')[0]
 
     def exit(self):
         self.driver.close()
