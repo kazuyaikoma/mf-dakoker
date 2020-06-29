@@ -13,9 +13,9 @@ class Color(object):
     END = '\033[0m'
 
     @classmethod
-    def get_colored(klass, color, text):
-        return color + text + klass.END
+    def get_colored(cls, color, text):
+        return color + text + cls.END
 
     @classmethod
-    def print(klass, color, text):
-        print(klass.get_colored(color, text))
+    def print(cls, color, text):
+        print(cls.get_colored(color, text))

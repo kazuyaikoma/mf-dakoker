@@ -50,15 +50,15 @@ class UserInfoManager(object):
                     open(self.USER_INFO_PATH + "/user_info.pkl", "wb"))
 
     @classmethod
-    def remove(klass):
-        if os.path.isfile(klass.USER_INFO_PATH + '/user_info.pkl'):
-            os.remove(klass.USER_INFO_PATH + "/user_info.pkl")
+    def remove(cls):
+        if os.path.isfile(cls.USER_INFO_PATH + '/user_info.pkl'):
+            os.remove(cls.USER_INFO_PATH + "/user_info.pkl")
             return True
 
         return False
 
     @classmethod
-    def remove_with_message(klass):
+    def remove_with_message(cls):
         spinner = Halo(text='Remove your local data...', spinner='dots')
         if UserInfoManager.remove():
             spinner.succeed("Data Successfully deleted.")
