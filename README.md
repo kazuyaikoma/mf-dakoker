@@ -8,7 +8,7 @@ MF-Dakoker
 主な機能
 - MFクラウド勤怠へのログイン
 - 出勤・退勤の打刻
-- 休憩時間の打刻
+- 休憩開始・終了の打刻
 - ログイン情報キャシュ・キャッシュクリア
 
 実装予定機能
@@ -29,7 +29,13 @@ MF-Dakoker
 - 出勤
   - `dakoker start`
 - 退勤
-  - `dakoker stop`
+  - `dakoker end`
+- 休憩開始
+  - `dakoker start_break`
+- 休憩終了
+  - `dakoker end_break`
+- ログイン情報キャッシュのクリア
+  - `dakoker clear`
 
 ### 初回利用時
 ログインのため、以下の情報を入力します。
