@@ -4,7 +4,7 @@ from src.utils.color import Color
 from src.utils.calc import Calc
 
 
-class AttendanceManager(object):
+class StampManager(object):
 
     def __init__(self):
         self.browser = Browser()
