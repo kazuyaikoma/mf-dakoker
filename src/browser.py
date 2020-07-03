@@ -26,12 +26,15 @@ class Browser(object):
 
     def __init__(self):
         self.info_manager = UserInfoManager()
-        self.user_info = self.info_manager.get()
+        self.setup_userinfo()
+
+    def setup_userinfo(self):
+        self.userinfo = self.info_manager.get()
         self.set_driver_to_userinfo()
         self.set_driver()
 
     def set_driver(self):
-        if self.user_info[self.DRIVER] == self.SAFARI:
+        if self.userinfo[self.DRIVER] == self.SAFARI:
             # TODO: make driver headless
             self.driver = webdriver.Safari()
         else:
@@ -40,11 +43,11 @@ class Browser(object):
             self.driver = webdriver.Chrome(chrome_options=options)
 
     def set_driver_to_userinfo(self):
-        if self.DRIVER not in self.user_info.keys():
+        if self.DRIVER not in self.userinfo.keys():
             message = 'Please select your browser driver:'
             options = [self.SAFARI, self.CHROME]
             option, _ = pick(options, message)
-            self.user_info[self.DRIVER] = option
+            self.userinfo[self.DRIVER] = option
 
     def login(self):
         spinner = Halo(text='Loading login page...', spinner='dots')
@@ -54,18 +57,18 @@ class Browser(object):
 
         spinner = Halo(text='Login...', spinner='dots')
         spinner.start()
-        return self.login_with_user_info(spinner)
+        return self.login_with_userinfo(spinner)
 
-    def login_with_user_info(self, spinner):
+    def login_with_userinfo(self, spinner):
         self.driver.find_element_by_id(
             "employee_session_form_office_account_name"
-        ).send_keys(self.user_info[self.info_manager.CORP_ID])
+        ).send_keys(self.userinfo[self.info_manager.CORP_ID])
         self.driver.find_element_by_id(
             "employee_session_form_account_name_or_email"
-        ).send_keys(self.user_info[self.info_manager.USER_ID])
+        ).send_keys(self.userinfo[self.info_manager.USER_ID])
         self.driver.find_element_by_id(
             "employee_session_form_password"
-        ).send_keys(self.user_info[self.info_manager.USER_PASS])
+        ).send_keys(self.userinfo[self.info_manager.USER_PASS])
 
         self.driver.find_element_by_class_name(
             "attendance-before-login-card-button"
@@ -80,7 +83,7 @@ class Browser(object):
                     (By.CLASS_NAME, "attendance-card-title")
                 )
             )
-            self.info_manager.save(self.user_info)
+            self.info_manager.save(self.userinfo)
             spinner.succeed(self.LOGIN_SUCCEED)
             return True
 
@@ -90,9 +93,9 @@ class Browser(object):
                     Color.RED,
                     "\nCompany ID, User ID or Password is wrong."
                 )
-                UserInfoManager.remove()
                 spinner.fail(self.LOGIN_FAILED)
-                return self.login()
+                UserInfoManager.remove()
+                return False
             else:
                 Color.print(Color.RED, "\nLogin Timeout.")
                 spinner.fail(self.LOGIN_FAILED)
