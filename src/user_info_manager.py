@@ -13,11 +13,11 @@ class UserInfoManager(object):
     MF_SERVICE = 'MF_SERVICE'
     USER_INFO_PATH = os.environ['HOME'] + '/.local/share/dakoker'
 
-    def get(self):
+    def get(self) -> hash:
         user_info = self.get_cached()
         if not user_info:
-            print("Please enter your login info.")
             user_info = {}
+            print("Please enter your login info.")
             user_info[self.CORP_ID] = input("company ID: ")
             user_info[self.USER_ID] = input("user ID or email address: ")
             user_info[self.USER_PASS] = getpass.getpass("password: ")
@@ -50,7 +50,7 @@ class UserInfoManager(object):
                     open(self.USER_INFO_PATH + "/user_info.pkl", "wb"))
 
     @classmethod
-    def remove(cls):
+    def remove(cls) -> bool:
         if os.path.isfile(cls.USER_INFO_PATH + '/user_info.pkl'):
             os.remove(cls.USER_INFO_PATH + "/user_info.pkl")
             return True

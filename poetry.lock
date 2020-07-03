@@ -326,6 +326,14 @@ ptyprocess = ">=0.5"
 
 [[package]]
 category = "main"
+description = "pick an option in the terminal with a simple GUI"
+name = "pick"
+optional = false
+python-versions = "*"
+version = "0.6.7"
+
+[[package]]
+category = "main"
 description = "Tiny 'shelve'-like database with concurrency support"
 name = "pickleshare"
 optional = false
@@ -539,7 +547,7 @@ python-versions = "*"
 version = "0.2.4"
 
 [metadata]
-content-hash = "e07dbc11a6e03932ede4e4d6dea05c8a8fa7c104726ff08d7fdfe78e7348239e"
+content-hash = "bfd7468463f86c272cdf42d6f1f344234d47d6e50d6c1ed6318e985b54643db7"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -691,6 +699,10 @@ parso = [
 pexpect = [
     {file = "pexpect-4.8.0-py2.py3-none-any.whl", hash = "sha256:0b48a55dcb3c05f3329815901ea4fc1537514d6ba867a152b581d69ae3710937"},
     {file = "pexpect-4.8.0.tar.gz", hash = "sha256:fc65a43959d153d0114afe13997d439c22823a27cefceb5ff35c2178c6784c0c"},
+]
+pick = [
+    {file = "pick-0.6.7-py2.py3-none-any.whl", hash = "sha256:fc523364e02cf030ff7f0018edaed1131793360e1935e1525f74bf4988fb1904"},
+    {file = "pick-0.6.7.tar.gz", hash = "sha256:ee025a9222cbf8c7f8c29357fcbe667f43945d36056da5238da407cfd57c0f33"},
 ]
 pickleshare = [
     {file = "pickleshare-0.7.5-py2.py3-none-any.whl", hash = "sha256:9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56"},

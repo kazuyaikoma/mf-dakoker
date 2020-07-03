@@ -20,6 +20,7 @@ keyring = "^21.2.1"
 better_exceptions = "^0.2.2"
 halo = "^0.0.29"
 bs4 = "^0.0.1"
+pick = "^0.6.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

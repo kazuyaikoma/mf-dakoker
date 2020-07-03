@@ -1,6 +1,7 @@
 # coding:utf-8
 import datetime as dt
 from bs4 import BeautifulSoup
+
 from src.browser import Browser
 from src.utils.color import Color
 
