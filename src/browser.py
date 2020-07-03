@@ -24,7 +24,8 @@ class Browser(object):
     SAFARI = 'Safari Drievr'
     CHROME = 'Chrome Drievr'
 
-    def __init__(self):
+    def __init__(self, headless=True):
+        self.headless = headless
         self.info_manager = UserInfoManager()
         self.setup_userinfo()
 
@@ -39,7 +40,7 @@ class Browser(object):
             self.driver = webdriver.Safari()
         else:
             options = webdriver.ChromeOptions()
-            options.headless = True
+            options.headless = self.headless
             self.driver = webdriver.Chrome(chrome_options=options)
 
     def set_driver_to_userinfo(self):

@@ -16,7 +16,8 @@ class Dakoker(object):
     dakoker start_break:    休憩開始の打刻をします\n
     dakoker end_break:      休憩終了の打刻をします\n
     dakoker today:          当日の勤怠状況を確認できます\n
-    dakoker ckear:          ユーザーログイン情報のローカルキャッシュをクリアします\n
+    dakoker open:           MFクラウド勤怠ページを開きます\n
+    dakoker clear:          ユーザーログイン情報のローカルキャッシュをクリアします\n
     """
 
     def start(self):
@@ -49,9 +50,17 @@ class Dakoker(object):
         """
         AttendanceManager().confirm(sys._getframe().f_code.co_name)
 
+    def open(self):
+        """
+        dakoker open:           MFクラウド勤怠ページを開きます
+        """
+        AttendanceManager(headless=False).open()
+        # ブラウザを永続的に表示させるため、終了コマンドが実行されるまで待機
+        input()
+
     def clear(self):
         """
-        dakoker ckear:          ユーザーログイン情報のローカルキャッシュをクリアします
+        dakoker clear:          ユーザーログイン情報のローカルキャッシュをクリアします
         """
         UserInfoManager.remove_with_message()
 

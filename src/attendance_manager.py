@@ -8,8 +8,9 @@ from src.utils.color import Color
 
 class AttendanceManager(object):
 
-    def __init__(self):
-        self.browser = Browser()
+    def __init__(self, headless=True):
+        self.headless = headless
+        self.browser = Browser(headless=headless)
         self.driver = self.browser.driver
 
     def confirm(self, method):
