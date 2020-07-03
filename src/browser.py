@@ -16,6 +16,7 @@ class Browser(object):
     ROOT_URL = "https://attendance.moneyforward.com"
     LOGIN_URL = ROOT_URL + "/employee_session/new"
     MYPAGE_URL = ROOT_URL + "/my_page"
+    ATTENDANCE_URL = MYPAGE_URL + "/attendances"
     LOGIN_SUCCEED = "Login Success."
     LOGIN_FAILED = "Login Failed."
 
@@ -77,3 +78,22 @@ class Browser(object):
                 Color.print(Color.RED, "\nLogin Timeout.")
                 spinner.fail(self.LOGIN_FAILED)
                 return False
+
+    def open_attendance(self):
+        if self.login():
+            spinner = Halo(text='Loading attendance page...', spinner='dots')
+            self.driver.get(self.ATTENDANCE_URL)
+
+        try:
+            WebDriverWait(self.driver, self.TIMEOUT).until(
+                EC.presence_of_element_located(
+                    (By.CLASS_NAME, "modal-controller-my-page-attendances")
+                )
+            )
+            spinner.succeed('Attendance page loaded.')
+            return True
+
+        except TimeoutException:
+            return False
+
+        return False
