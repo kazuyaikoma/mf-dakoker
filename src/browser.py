@@ -46,7 +46,8 @@ class Browser(object):
     def set_driver_to_userinfo(self):
         if self.DRIVER not in self.userinfo.keys():
             message = 'Please select your browser driver:'
-            options = [self.SAFARI, self.CHROME]
+            # options = [self.SAFARI, self.CHROME]
+            options = [self.CHROME]
             option, _ = pick(options, message)
             self.userinfo[self.DRIVER] = option
 
