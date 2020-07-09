@@ -16,8 +16,6 @@ MF-Dakoker
 実装したい機能
 - 二重打刻の防止機能
 - 指定日の勤怠状況の確認(打刻日時)
-- Macユーザー向けにsafari driverを選択可能にする
-  - chrome driverで問題が発生するユーザーが多そうであれば、safari driverも選択できると良さそうなため.
 
 動作環境
 - Python 3.8
@@ -31,7 +29,7 @@ MF-Dakoker
 - Chrome Driverの場合
   - `brew install chromedriver` (mac OS Xの場合) でchromedriverをインストール
 - Safari Driverの場合
-  - 内容整理中です(現在Chrome Driverのみ選択可能)
+  - Safari 10.0以上を使っている場合使用可能です
 
 ### 初回利用時
 ログインのため、以下の情報を入力します。

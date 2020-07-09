@@ -36,7 +36,6 @@ class Browser(object):
 
     def set_driver(self):
         if self.userinfo[self.DRIVER] == self.SAFARI:
-            # TODO: make driver headless
             self.driver = webdriver.Safari()
         else:
             options = webdriver.ChromeOptions()
@@ -46,8 +45,7 @@ class Browser(object):
     def set_driver_to_userinfo(self):
         if self.DRIVER not in self.userinfo.keys():
             message = 'Please select your browser driver:'
-            # options = [self.SAFARI, self.CHROME]
-            options = [self.CHROME]
+            options = [self.SAFARI, self.CHROME]
             option, _ = pick(options, message)
             self.userinfo[self.DRIVER] = option
 
