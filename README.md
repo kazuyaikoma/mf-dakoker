@@ -24,7 +24,7 @@ MF-Dakoker
 ## インストール方法
 `pip3 install dakoker`
 
-また、現在Chrome Driverに対応しており、以下の設定が必要です。
+また、現在Chrome Driver・Safari Driverに対応しており、以下の設定が必要です。
 
 - Chrome Driverの場合
   - `brew install chromedriver` (mac OS Xの場合) でchromedriverをインストール
