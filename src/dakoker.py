@@ -15,7 +15,7 @@ class Dakoker(object):
     dakoker end:            退勤の打刻をします\n
     dakoker start_break:    休憩開始の打刻をします\n
     dakoker end_break:      休憩終了の打刻をします\n
-    dakoker today:          当日の勤怠状況を確認できます\n
+    dakoker history:        当日の勤怠状況を確認できます\n
     dakoker open:           MFクラウド勤怠ページを開きます\n
     dakoker clear:          ユーザーログイン情報のローカルキャッシュをクリアします\n
     """
@@ -44,9 +44,9 @@ class Dakoker(object):
         """
         StampManager().stamp(sys._getframe().f_code.co_name)
 
-    def today(self):
+    def history(self):
         """
-        dakoker today:          当日の勤怠状況を確認できます
+        dakoker history:        当日の勤怠状況を確認できます
         """
         AttendanceManager().confirm(sys._getframe().f_code.co_name)
 

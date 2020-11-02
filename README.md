@@ -53,7 +53,7 @@ MF-Dakoker
 - 休憩終了
   - `dakoker end_break`
 - 当日の勤怠状況の確認
-  - `dakoker today`
+  - `dakoker history`
 - ブラウザでMFクラウド勤怠ページを直接開く
   - `dakoker open`
 - ログイン情報キャッシュのクリア

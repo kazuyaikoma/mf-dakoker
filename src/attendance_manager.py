@@ -21,7 +21,7 @@ class AttendanceManager(object):
     def open(self):
         return self.browser.open_attendance()
 
-    def today(self):
+    def history(self):
         timetable = self.get_attendance_timetable(dt.datetime.now().day)
         self.print_timetable(timetable)
 
