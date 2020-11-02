@@ -27,13 +27,13 @@ class AttendanceManager(object):
 
     def print_timetable(self, timetable):
         texts = [
-            Color.get_colored(Color.BOLD, 'Work START:  ')
+            Color.get_colored(Color.BOLD, '出勤:     ')
             + ', '.join(timetable[0]),
-            Color.get_colored(Color.BOLD, 'Work END:    ')
+            Color.get_colored(Color.BOLD, '退勤:     ')
             + ', '.join(timetable[1]),
-            Color.get_colored(Color.BOLD, 'Break START: ')
+            Color.get_colored(Color.BOLD, '休憩開始: ')
             + ', '.join(timetable[2]),
-            Color.get_colored(Color.BOLD, 'Break END:   ')
+            Color.get_colored(Color.BOLD, '休憩終了: ')
             + ', '.join(timetable[3])
         ]
         print('================================')

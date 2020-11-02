@@ -27,31 +27,31 @@ class StampManager(object):
 
     def start(self):
         selector = "attendance-card-time-stamp-clock-in"
-        prefix = "Work " + Color.get_colored(Color.BOLD, "START") + " time: "
+        prefix = Color.get_colored(Color.BOLD, "出勤: ")
         self.clock_execute(selector, prefix)
 
-        Color.print(Color.GREEN, "DAKOKU successful. Good luck!")
+        Color.print(Color.GREEN, "打刻が完了しました。良い一日を！")
 
     def end(self):
         selector = "attendance-card-time-stamp-clock-out"
-        prefix = "Work " + Color.get_colored(Color.BOLD, "END") + " time: "
+        prefix = Color.get_colored(Color.BOLD, "退勤: ")
         self.clock_execute(selector, prefix)
 
-        Color.print(Color.GREEN, "DAKOKU successful. Good job today!")
+        Color.print(Color.GREEN, "打刻が完了しました。一日お疲れ様でした！")
 
     def start_break(self):
         selector = "attendance-card-time-stamp-start-break"
-        prefix = "Break " + Color.get_colored(Color.BOLD, "START") + " time: "
+        prefix = Color.get_colored(Color.BOLD, "休憩開始: ")
         self.clock_execute(selector, prefix)
 
-        Color.print(Color.GREEN, "DAKOKU successful. Let's take a break.")
+        Color.print(Color.GREEN, "休憩開始の打刻が完了しました。")
 
     def end_break(self):
         selector = "attendance-card-time-stamp-end-break"
-        prefix = "Break " + Color.get_colored(Color.BOLD, "END") + " time: "
+        prefix = Color.get_colored(Color.BOLD, "休憩終了: ")
         self.clock_execute(selector, prefix)
 
-        Color.print(Color.GREEN, "DAKOKU successful. Let's get back to work.")
+        Color.print(Color.GREEN, "休憩終了の打刻が完了しました。")
 
     def exit(self):
         self.driver.close()
