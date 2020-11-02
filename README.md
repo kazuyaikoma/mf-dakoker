@@ -34,8 +34,11 @@ MF-Dakoker
 
 - Chrome Driverの場合
   - `brew install chromedriver` (mac OS Xの場合) でchromedriverをインストール
+  - お使いのChromeブラウザとChrome Driverのバージョンが合っていない場合、正しく動作しないケースがあります。バージョンが合ったChrome Driverを使うようにしてください。
+    
 - Safari Driverの場合
   - Safari 10.0以上を使っている場合使用可能です
+  - Safari Driverを利用する場合、"環境設定"から開発メニューを表示させ、「リモートオートメーション」を許可してください。
 
 ### 初回利用時
 ログインのため、以下の情報を入力します。
