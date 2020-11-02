@@ -5,6 +5,9 @@ MF-Dakoker
 
 [MFクラウド勤怠](https://biz.moneyforward.com/attendance)利用者向けに作った打刻・勤怠状況確認ツールです。
 
+出勤・退勤の打刻
+![Gif](https://raw.github.com/wiki/nixiesquid/mf-dakoker/end.gif)
+
 主な機能
 - MFクラウド勤怠へのログイン
 - 出勤・退勤の打刻
