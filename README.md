@@ -24,7 +24,7 @@ MF-Dakoker
 - 指定日の勤怠状況の確認(打刻日時)
 
 動作環境
-- Python 3.8
+- Python 3.9
 - poetry 1.0.9
 
 ## インストール方法
@@ -35,7 +35,7 @@ MF-Dakoker
 - Chrome Driverの場合
   - `brew install chromedriver` (mac OS Xの場合) でchromedriverをインストール
   - お使いのChromeブラウザとChrome Driverのバージョンが合っていない場合、正しく動作しないケースがあります。バージョンが合ったChrome Driverを使うようにしてください。
-    
+
 - Safari Driverの場合
   - Safari 10.0以上を使っている場合使用可能です
   - Safari Driverを利用する場合、"環境設定"から開発メニューを表示させ、「リモートオートメーション」を許可してください。
