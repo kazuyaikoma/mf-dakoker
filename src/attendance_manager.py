@@ -1,5 +1,7 @@
 # coding:utf-8
 import datetime as dt
+from typing import Callable
+from functools import wraps
 from bs4 import BeautifulSoup
 
 from src.browser import Browser
@@ -7,7 +9,6 @@ from src.utils.color import Color
 
 
 class AttendanceManager(object):
-
     def __init__(self, headless=True):
         self.headless = headless
         self.browser = Browser(headless=headless)
@@ -32,31 +33,15 @@ class AttendanceManager(object):
         """
         dakoker overtime 実行時に走る
         """
-        timetable = self.get_attendance_timetable(dt.datetime.now().day)
-        self.print_timetable(timetable)
+        overtime = self.get_attendance_timetable(dt.datetime.now().day)
+        self.print_overtime(overtime)
 
     def prev_overtime(self):
         """
         dakoker prev_overtime 実行時に走る
         """
-        timetable = self.get_attendance_timetable(dt.datetime.now().day)
-        self.print_timetable(timetable)
-
-    def print_timetable(self, timetable):
-        texts = [
-            Color.get_colored(Color.BOLD, '出勤:     ')
-            + ', '.join(timetable[0]),
-            Color.get_colored(Color.BOLD, '退勤:     ')
-            + ', '.join(timetable[1]),
-            Color.get_colored(Color.BOLD, '休憩開始: ')
-            + ', '.join(timetable[2]),
-            Color.get_colored(Color.BOLD, '休憩終了: ')
-            + ', '.join(timetable[3])
-        ]
-        print('================================')
-        for text in texts:
-            print(text)
-        print('================================')
+        overtime = self.get_attendance_timetable(dt.datetime.now().day)
+        self.print_overtime(overtime)
 
     def get_attendance_timetable(self, day) -> list:
         timetable = self.get_attendance(day)
@@ -80,3 +65,33 @@ class AttendanceManager(object):
 
     def exit(self):
         self.driver.close()
+
+    def printer(func: Callable) -> Callable:
+        """
+        print系メソッド用のラッパー関数
+        """
+        @wraps(func)
+        def newfunc(*args) -> None:
+            print('================================')
+            func(*args)
+            print('================================')
+        return newfunc
+
+    @printer
+    def print_timetable(self, timetable):
+        texts = [
+            Color.get_colored(Color.BOLD, '出勤:     ')
+            + ', '.join(timetable[0]),
+            Color.get_colored(Color.BOLD, '退勤:     ')
+            + ', '.join(timetable[1]),
+            Color.get_colored(Color.BOLD, '休憩開始: ')
+            + ', '.join(timetable[2]),
+            Color.get_colored(Color.BOLD, '休憩終了: ')
+            + ', '.join(timetable[3])
+        ]
+        for text in texts:
+            print(text)
+
+    @printer
+    def print_overtime(self, overtime):
+        print(overtime)
