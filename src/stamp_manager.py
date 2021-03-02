@@ -5,7 +5,6 @@ from src.utils.calc import Calc
 
 
 class StampManager(object):
-
     def __init__(self):
         self.browser = Browser()
         self.driver = self.browser.driver

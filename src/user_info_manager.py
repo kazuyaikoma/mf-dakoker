@@ -7,11 +7,11 @@ from halo import Halo
 
 
 class UserInfoManager(object):
-    CORP_ID = 'CORP_ID'
-    USER_ID = 'USER_ID'
-    USER_PASS = 'USER_PASS'
-    MF_SERVICE = 'MF_SERVICE'
-    USER_INFO_PATH = os.environ['HOME'] + '/.local/share/dakoker'
+    CORP_ID = "CORP_ID"
+    USER_ID = "USER_ID"
+    USER_PASS = "USER_PASS"
+    MF_SERVICE = "MF_SERVICE"
+    USER_INFO_PATH = os.environ["HOME"] + "/.local/share/dakoker"
 
     def get(self) -> hash:
         user_info = self.get_cached()
@@ -25,11 +25,10 @@ class UserInfoManager(object):
         return user_info
 
     def get_cached(self):
-        if os.path.isfile(self.USER_INFO_PATH + '/user_info.pkl'):
-            with open(self.USER_INFO_PATH + '/user_info.pkl', "rb") as f:
+        if os.path.isfile(self.USER_INFO_PATH + "/user_info.pkl"):
+            with open(self.USER_INFO_PATH + "/user_info.pkl", "rb") as f:
                 info = pickle.load(f)
-                passwd = keyring.get_password(
-                    self.MF_SERVICE, info[self.USER_ID])
+                passwd = keyring.get_password(self.MF_SERVICE, info[self.USER_ID])
                 if passwd:
                     info[self.USER_PASS] = passwd
                     return info
@@ -41,17 +40,15 @@ class UserInfoManager(object):
             os.makedirs(self.USER_INFO_PATH)
 
         keyring.set_password(
-            self.MF_SERVICE,
-            user_info[self.USER_ID],
-            user_info[self.USER_PASS])
+            self.MF_SERVICE, user_info[self.USER_ID], user_info[self.USER_PASS]
+        )
 
         del user_info[self.USER_PASS]
-        pickle.dump(user_info,
-                    open(self.USER_INFO_PATH + "/user_info.pkl", "wb"))
+        pickle.dump(user_info, open(self.USER_INFO_PATH + "/user_info.pkl", "wb"))
 
     @classmethod
     def remove(cls) -> bool:
-        if os.path.isfile(cls.USER_INFO_PATH + '/user_info.pkl'):
+        if os.path.isfile(cls.USER_INFO_PATH + "/user_info.pkl"):
             os.remove(cls.USER_INFO_PATH + "/user_info.pkl")
             return True
 
@@ -59,7 +56,7 @@ class UserInfoManager(object):
 
     @classmethod
     def remove_with_message(cls):
-        spinner = Halo(text='Remove your local data...', spinner='dots')
+        spinner = Halo(text="Remove your local data...", spinner="dots")
         if UserInfoManager.remove():
             spinner.succeed("Data Successfully deleted.")
         else:

@@ -1,6 +1,7 @@
 # coding:utf-8
 from pick import pick
 from halo import Halo
+from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,12 +18,12 @@ class Browser(object):
     LOGIN_URL = ROOT_URL + "/employee_session/new"
     MYPAGE_URL = ROOT_URL + "/my_page"
     ATTENDANCE_URL = MYPAGE_URL + "/attendances"
-    LOGIN_SUCCEED = "Login Success."
-    LOGIN_FAILED = "Login Failed."
+    LOGIN_SUCCEED = "ログインに成功しました。"
+    LOGIN_FAILED = "ログインに失敗しました。"
 
-    DRIVER = 'DRIVER'
-    SAFARI = 'Safari Drievr'
-    CHROME = 'Chrome Drievr'
+    DRIVER = "DRIVER"
+    SAFARI = "Safari Drievr"
+    CHROME = "Chrome Drievr"
 
     def __init__(self, headless=True):
         self.headless = headless
@@ -44,18 +45,18 @@ class Browser(object):
 
     def set_driver_to_userinfo(self):
         if self.DRIVER not in self.userinfo.keys():
-            message = 'Please select your browser driver:'
+            message = "ブラウザドライバを選択してください:"
             options = [self.SAFARI, self.CHROME]
             option, _ = pick(options, message)
             self.userinfo[self.DRIVER] = option
 
     def login(self):
-        spinner = Halo(text='Loading login page...', spinner='dots')
+        spinner = Halo(text="ログインページをロードしています...", spinner="dots")
         spinner.start()
         self.driver.get(self.LOGIN_URL)
-        spinner.succeed("Login page loaded.")
+        spinner.succeed("ログインページのロードを完了しました。")
 
-        spinner = Halo(text='Login...', spinner='dots')
+        spinner = Halo(text="ログイン中...", spinner="dots")
         spinner.start()
         return self.login_with_userinfo(spinner)
 
@@ -66,9 +67,9 @@ class Browser(object):
         self.driver.find_element_by_id(
             "employee_session_form_account_name_or_email"
         ).send_keys(self.userinfo[self.info_manager.USER_ID])
-        self.driver.find_element_by_id(
-            "employee_session_form_password"
-        ).send_keys(self.userinfo[self.info_manager.USER_PASS])
+        self.driver.find_element_by_id("employee_session_form_password").send_keys(
+            self.userinfo[self.info_manager.USER_PASS]
+        )
 
         self.driver.find_element_by_class_name(
             "attendance-before-login-card-button"
@@ -79,9 +80,7 @@ class Browser(object):
     def check_login(self, spinner):
         try:
             WebDriverWait(self.driver, self.TIMEOUT).until(
-                EC.presence_of_element_located(
-                    (By.CLASS_NAME, "attendance-card-title")
-                )
+                EC.presence_of_element_located((By.CLASS_NAME, "attendance-card-title"))
             )
             self.info_manager.save(self.userinfo)
             spinner.succeed(self.LOGIN_SUCCEED)
@@ -89,21 +88,18 @@ class Browser(object):
 
         except TimeoutException:
             if self.driver.find_elements(By.CLASS_NAME, "is-error") != 0:
-                Color.print(
-                    Color.RED,
-                    "\nCompany ID, User ID or Password is wrong."
-                )
+                Color.print(Color.RED, "\n企業ID, ユーザーID もしくはパスワードが間違っています。")
                 spinner.fail(self.LOGIN_FAILED)
                 UserInfoManager.remove()
                 return False
             else:
-                Color.print(Color.RED, "\nLogin Timeout.")
+                Color.print(Color.RED, "\nログイン中にタイムアウトしました。")
                 spinner.fail(self.LOGIN_FAILED)
                 return False
 
     def open_attendance(self):
         if self.login():
-            spinner = Halo(text='Loading attendance page...', spinner='dots')
+            spinner = Halo(text="日次勤怠ページをロードしています...", spinner="dots")
             self.driver.get(self.ATTENDANCE_URL)
 
         try:
@@ -112,7 +108,28 @@ class Browser(object):
                     (By.CLASS_NAME, "modal-controller-my-page-attendances")
                 )
             )
-            spinner.succeed('Attendance page loaded.')
+            spinner.succeed("日次勤怠ページのロードを完了しました。")
+            return True
+
+        except TimeoutException:
+            return False
+
+    def open_prev_attendance(self):
+        if self.open_attendance():
+            spinner = Halo(text="先月の日次勤怠ページをロードしています...", spinner="dots")
+            self.driver.find_element_by_class_name(
+                "attendance-table-header-month-range-previous"
+            ).click()
+            # 先月の日次勤怠ページ表示までsleepを挟む
+            sleep(1)
+
+        try:
+            WebDriverWait(self.driver, self.TIMEOUT).until(
+                EC.presence_of_element_located(
+                    (By.CLASS_NAME, "modal-controller-my-page-attendances")
+                )
+            )
+            spinner.succeed("先月の日次勤怠ページのロードを完了しました。")
             return True
 
         except TimeoutException:
