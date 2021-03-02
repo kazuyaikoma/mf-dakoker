@@ -22,6 +22,23 @@ class AttendanceManager(object):
         return self.browser.open_attendance()
 
     def history(self):
+        """
+        dakoker history実行時に走る
+        """
+        timetable = self.get_attendance_timetable(dt.datetime.now().day)
+        self.print_timetable(timetable)
+
+    def overtime(self):
+        """
+        dakoker overtime 実行時に走る
+        """
+        timetable = self.get_attendance_timetable(dt.datetime.now().day)
+        self.print_timetable(timetable)
+
+    def prev_overtime(self):
+        """
+        dakoker prev_overtime 実行時に走る
+        """
         timetable = self.get_attendance_timetable(dt.datetime.now().day)
         self.print_timetable(timetable)
 
