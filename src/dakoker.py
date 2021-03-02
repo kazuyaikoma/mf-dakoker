@@ -16,7 +16,7 @@ class Dakoker(object):
     dakoker start_break:    休憩開始の打刻をします\n
     dakoker end_break:      休憩終了の打刻をします\n
     dakoker history:        当日の勤怠状況を確認できます\n
-    dakoker overtime:       当日までの積算の残業時間(h)を確認できます\n
+    dakoker overtime:       今月の積算の残業時間(h)を確認できます\n
     dakoker prev_overtime:  先月の積算の残業時間(h)を確認できます\n
     dakoker open:           MFクラウド勤怠ページを開きます\n
     dakoker clear:          ユーザーログイン情報のローカルキャッシュをクリアします\n
@@ -54,7 +54,7 @@ class Dakoker(object):
 
     def overtime(self):
         """
-        dakoker overtime:       当日までの積算の残業時間(h)を確認できます
+        dakoker overtime:       今月の積算の残業時間(h)を確認できます
         """
         AttendanceManager().confirm(sys._getframe().f_code.co_name)
 
