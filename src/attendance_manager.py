@@ -16,7 +16,8 @@ class AttendanceManager(object):
 
     def confirm(self, method):
         if method in dir(self):
-            getattr(self, method)()
+            if (fun := getattr(self, method)):
+                fun()
             self.exit()
 
     def open_attendance(self):

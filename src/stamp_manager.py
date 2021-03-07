@@ -11,7 +11,8 @@ class StampManager(object):
 
     def stamp(self, method):
         if self.login() and method in dir(self):
-            getattr(self, method)()
+            if (fun := getattr(self, method)):
+                fun()
             self.exit()
 
     def login(self):
