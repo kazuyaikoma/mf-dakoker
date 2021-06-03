@@ -68,7 +68,7 @@ class Dakoker(object):
         """
         dakoker open:           MFクラウド勤怠ページを開きます
         """
-        AttendanceManager(headless=False).open()
+        AttendanceManager(headless=False).open_attendance()
         # ブラウザを永続的に表示させるため、終了コマンドが実行されるまで待機
         input()
 

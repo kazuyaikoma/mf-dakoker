@@ -15,7 +15,7 @@ from src.user_info_manager import UserInfoManager
 class Browser(object):
     TIMEOUT = 3
     ROOT_URL = "https://attendance.moneyforward.com"
-    LOGIN_URL = ROOT_URL + "/employee_session/new"
+    LOGIN_URL = ROOT_URL + "/email_employee_session/new"
     MYPAGE_URL = ROOT_URL + "/my_page"
     ATTENDANCE_URL = MYPAGE_URL + "/attendances"
     LOGIN_SUCCEED = "ログインに成功しました。"
